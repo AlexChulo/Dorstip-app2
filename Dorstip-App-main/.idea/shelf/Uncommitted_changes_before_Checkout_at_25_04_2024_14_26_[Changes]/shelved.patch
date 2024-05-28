@@ -1,0 +1,227 @@
+Index: app/src/main/java/com/example/dorstip_app/dashboard/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.dorstip_app.dashboard\r\n\r\n\r\nimport android.os.Bundle\r\nimport android.widget.ImageView\r\nimport android.widget.TextView\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.example.dorstip_app.R\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n    }\r\n}\r\n\r\n\r\n\r\n\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/dorstip_app/dashboard/MainActivity.kt b/app/src/main/java/com/example/dorstip_app/dashboard/MainActivity.kt
+--- a/app/src/main/java/com/example/dorstip_app/dashboard/MainActivity.kt	
++++ b/app/src/main/java/com/example/dorstip_app/dashboard/MainActivity.kt	
+@@ -1,7 +1,9 @@
+ package com.example.dorstip_app.dashboard
+ 
+ 
++import android.content.Context
+ import android.os.Bundle
++import android.util.Log
+ import android.widget.ImageView
+ import android.widget.TextView
+ import androidx.appcompat.app.AppCompatActivity
+@@ -12,6 +14,15 @@
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_main)
++
++        val tableExists = DataBaseHandler.doesTableExist(this)
++
++        // Log the result
++        if (tableExists) {
++            Log.d("MainActivity", "Table exists")
++        } else {
++            Log.d("MainActivity", "Table does not exist")
++        }
+     }
+ }
+ 
+Index: app/src/main/java/com/example/dorstip_app/dashboard/DataBaseHandler.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.dorstip_app.dashboard\r\n\r\nimport android.content.ContentValues\r\nimport android.content.Context\r\nimport android.database.Cursor\r\nimport android.database.sqlite.SQLiteDatabase\r\nimport android.database.sqlite.SQLiteException\r\nimport android.database.sqlite.SQLiteOpenHelper\r\n\r\n\r\n\r\nclass DataBaseHandler(context: Context) :\r\n    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {\r\n\r\n    companion object {\r\n        private const val DATABASE_VERSION = 1\r\n        private const val DATABASE_NAME = \"DrinksDB\"\r\n        private const val TABLE_DRINKS = \"drinks\"\r\n\r\n        private const val COL_ID = \"_id\"\r\n        private const val COL_NAME = \"name\"\r\n        private const val COL_IMAGE = \"image\"\r\n    }\r\n\r\n    override fun onCreate(db: SQLiteDatabase?) {\r\n        val createTable = \"CREATE TABLE \" + TABLE_DRINKS + \" (\" +\r\n                COL_ID + \" INTEGER PRIMARY KEY AUTOINCREMENT, \" +\r\n                COL_NAME + \" TEXT,\" +\r\n                COL_IMAGE + \" TEXT)\"\r\n        db?.execSQL(createTable)\r\n    }\r\n\r\n    override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {\r\n        // controleren of de tabel bestaay\r\n        db.execSQL(\"DROP TABLE IF EXISTS \" + TABLE_DRINKS)\r\n        onCreate(db)\r\n    }\r\n\r\n    fun addDrinksCategory(cat: Category): Long {\r\n        val db = this.writableDatabase\r\n\r\n        val contentValues = ContentValues()\r\n        contentValues.put(COL_NAME, cat.name)\r\n        contentValues.put(COL_IMAGE, cat.image)\r\n\r\n        val success = db.insert(TABLE_DRINKS, null, contentValues)\r\n\r\n        db.close()\r\n        return success\r\n    }\r\n\r\n    fun viewDrinksCategory(): ArrayList<Category> {\r\n        val catList: ArrayList<Category> = ArrayList()\r\n\r\n        val selectQuery = \"SELECT * FROM $TABLE_DRINKS\"\r\n\r\n        val db = this.readableDatabase\r\n        var cursor: Cursor? = null\r\n\r\n        try {\r\n            cursor = db.rawQuery(selectQuery, null)\r\n        } catch (e: Exception) {\r\n            db.execSQL(selectQuery)\r\n            return ArrayList()\r\n        }\r\n\r\n        var id: Int\r\n        var name: String\r\n        var image: String\r\n\r\n        cursor?.use {\r\n            while (it.moveToNext()) {\r\n                id = it.getInt(it.getColumnIndex(COL_ID))\r\n                name = it.getString(it.getColumnIndex(COL_NAME))\r\n                image = it.getString(it.getColumnIndex(COL_IMAGE))\r\n\r\n                val cat = Category(id = id, name = name, image = image)\r\n                catList.add(cat)\r\n            }\r\n        }\r\n\r\n        return catList\r\n    }\r\n\r\n    fun updateDrinkCategory(cat: Category): Int {\r\n        val db = this.writableDatabase\r\n        val contentValues = ContentValues()\r\n        contentValues.put(COL_NAME, cat.name)\r\n        contentValues.put(COL_IMAGE, cat.image)\r\n\r\n        val success = db.update(TABLE_DRINKS, contentValues, \"$COL_ID = ?\", arrayOf(cat.id.toString()))\r\n\r\n        db.close()\r\n        return success\r\n    }\r\n\r\n    fun deleteDrinkCategory(cat: Category): Int {\r\n        val db = this.writableDatabase\r\n        val success = db.delete(TABLE_DRINKS, \"$COL_ID = ?\", arrayOf(cat.id.toString()))\r\n        db.close()\r\n        return success\r\n    }\r\n\r\n\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/dorstip_app/dashboard/DataBaseHandler.kt b/app/src/main/java/com/example/dorstip_app/dashboard/DataBaseHandler.kt
+--- a/app/src/main/java/com/example/dorstip_app/dashboard/DataBaseHandler.kt	
++++ b/app/src/main/java/com/example/dorstip_app/dashboard/DataBaseHandler.kt	
+@@ -4,111 +4,100 @@
+ import android.content.Context
+ import android.database.Cursor
+ import android.database.sqlite.SQLiteDatabase
+-import android.database.sqlite.SQLiteException
+ import android.database.sqlite.SQLiteOpenHelper
+-
++import android.util.Log
++class DataBaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) :
++    SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
++    override fun onCreate(db: SQLiteDatabase) {
++        //Aanmaken tabel met daarin de kolommen en hun databtypes die nodig zijn.
++        // In dit geval een naam en een wachtwoord
++        val query = ("CREATE TABLE " + TABLE_NAME + " ("
++                + ID_COL + " INTEGER PRIMARY KEY, " +
++                NAME_COl + " TEXT," +
++                PASS_COL + " TEXT" + ")")
+ 
+-
+-class DataBaseHandler(context: Context) :
+-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+-
+-    companion object {
+-        private const val DATABASE_VERSION = 1
+-        private const val DATABASE_NAME = "DrinksDB"
+-        private const val TABLE_DRINKS = "drinks"
+-
+-        private const val COL_ID = "_id"
+-        private const val COL_NAME = "name"
+-        private const val COL_IMAGE = "image"
+-    }
+-
+-    override fun onCreate(db: SQLiteDatabase?) {
+-        val createTable = "CREATE TABLE " + TABLE_DRINKS + " (" +
+-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+-                COL_NAME + " TEXT," +
+-                COL_IMAGE + " TEXT)"
+-        db?.execSQL(createTable)
++        //Uitvoeren van de query
++        db.execSQL(query)
+     }
+ 
+     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+         // controleren of de tabel bestaay
+-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRINKS)
++        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
+         onCreate(db)
+     }
+ 
+-    fun addDrinksCategory(cat: Category): Long {
++    // Toevoegen van de naam en wachtwoord
++    fun addName(name : String, pass : String ){
++
++        // below we are creating
++        // a content values variable
++        val values = ContentValues()
++
++        // Toevoegen van de waarden op basis van een key-value paar.
++        // Zoals je dit kent in een array
++
++        values.put(NAME_COl, name)
++        values.put(PASS_COL, pass)
++
++        //Aangeven dat er gegevens naar de database geschreven mag worden
+         val db = this.writableDatabase
+ 
+-        val contentValues = ContentValues()
+-        contentValues.put(COL_NAME, cat.name)
+-        contentValues.put(COL_IMAGE, cat.image)
++        //Alle waarden toevoegen aan de database
++        db.insert(TABLE_NAME, null, values)
+ 
+-        val success = db.insert(TABLE_DRINKS, null, contentValues)
+-
++        //Databaseverbidning sluiten
+         db.close()
+-        return success
+     }
+ 
+-    fun viewDrinksCategory(): ArrayList<Category> {
+-        val catList: ArrayList<Category> = ArrayList()
++    //Ophalen data uit de database
++    fun getName(): Cursor? {
+ 
+-        val selectQuery = "SELECT * FROM $TABLE_DRINKS"
+-
++        //Aangeven dat er data uit de database gelezen mag worden
+         val db = this.readableDatabase
+-        var cursor: Cursor? = null
+ 
+-        try {
+-            cursor = db.rawQuery(selectQuery, null)
+-        } catch (e: Exception) {
+-            db.execSQL(selectQuery)
+-            return ArrayList()
+-        }
++        //Onderstaande select query uitvoeren en deze als cursor object terug te gevene.
++        //In het cursur object zit alle data die uit de database zijn gehaald. Deze kun
++        // je vergelijken met een ResultSet
++        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null)
++    }
+ 
+-        var id: Int
+-        var name: String
+-        var image: String
++    companion object{
++        // here we have defined variables for our database
+ 
+-        cursor?.use {
+-            while (it.moveToNext()) {
+-                id = it.getInt(it.getColumnIndex(COL_ID))
+-                name = it.getString(it.getColumnIndex(COL_NAME))
+-                image = it.getString(it.getColumnIndex(COL_IMAGE))
++        // Variabelen voor de databasenaam
++        private val DATABASE_NAME = "DrinkDB"
+ 
+-                val cat = Category(id = id, name = name, image = image)
+-                catList.add(cat)
+-            }
+-        }
++        //Versie van de database
++        private val DATABASE_VERSION = 1
+ 
+-        return catList
+-    }
++        // Variabele voor de tabelnaam
++        val TABLE_NAME = "Drinks"
+ 
+-    fun updateDrinkCategory(cat: Category): Int {
+-        val db = this.writableDatabase
+-        val contentValues = ContentValues()
+-        contentValues.put(COL_NAME, cat.name)
+-        contentValues.put(COL_IMAGE, cat.image)
++        // Variabele voor het ID
++        val ID_COL = "id"
+ 
+-        val success = db.update(TABLE_DRINKS, contentValues, "$COL_ID = ?", arrayOf(cat.id.toString()))
++        // Variabele voor de kolomnaam
++        val NAME_COl = "name"
+ 
+-        db.close()
+-        return success
+-    }
+-
+-    fun deleteDrinkCategory(cat: Category): Int {
+-        val db = this.writableDatabase
+-        val success = db.delete(TABLE_DRINKS, "$COL_ID = ?", arrayOf(cat.id.toString()))
+-        db.close()
+-        return success
+-    }
+-
+-
+-}
+-
+-
+-
+-
+-
+-
+-
+-
+-
++        // Variabele voor het wachtwoord
++        val PASS_COL = "password"
++
++        fun doesTableExist(context: Context): Boolean {
++            val dbHandler = DataBaseHandler(context, null)
++            val db = dbHandler.readableDatabase
++            val cursor = db.rawQuery(
++                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
++                arrayOf(TABLE_NAME)
++            )
++            val exists = cursor.count > 0
++            cursor.close()
++            db.close()
++            if (exists) {
++                Log.d("DBHelper", "Table $TABLE_NAME exists")
++            } else {
++                Log.d("DBHelper", "Table $TABLE_NAME does not exist")
++            }
++            return exists
++        }
++    }
++}
+\ No newline at end of file

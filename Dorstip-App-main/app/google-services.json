@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "773831212727",
+    "firebase_url": "https://dorstip-app-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "dorstip-app",
+    "storage_bucket": "dorstip-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773831212727:android:099ff0180ce5038b0c5732",
+        "android_client_info": {
+          "package_name": "com.example.dorstip_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBHW1ri6lerwKTdN_LeoT2HfV1CYmy2gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
