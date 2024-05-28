@@ -20,7 +20,7 @@
             android:name=".dashboard.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen.LoginScreen"
+            android:name=".LoginAndRegistration.LoginScreen"
             android:exported="false" />
         <activity
             android:name=".OnboardingScreen.OnboardingScreenActivity"

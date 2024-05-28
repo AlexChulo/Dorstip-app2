@@ -1,4 +1,4 @@
-package com.example.dorstip_app.LoginScreen
+package com.example.dorstip_app.LoginAndRegistration
 
 import android.content.Intent
 import android.os.Bundle

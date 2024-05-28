@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.viewpager2.widget.ViewPager2
-import com.example.dorstip_app.LoginScreen.LoginScreen
+import com.example.dorstip_app.LoginAndRegistration.LoginScreen
 import com.example.dorstip_app.R
 
 class OnboardingScreenActivity : AppCompatActivity() {
