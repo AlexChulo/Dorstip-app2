@@ -1,8 +1,7 @@
-package com.example.dorstip_app.dashboard
+package com.example.dorstip_app.dashboard.Products
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dorstip_app.cart.CartActivity
 import com.example.dorstip_app.dashboard.BannerSlider.SliderAdapter
 import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
-import com.example.dorstip_app.dashboard.Products.ItemModel
-import com.example.dorstip_app.dashboard.Review.Review
 import com.example.dorstip_app.dashboard.Review.ReviewAdapter
 import com.example.dorstip_app.dashboard.Review.ReviewViewModel
 import com.example.dorstip_app.dashboard.shoppingcart.ShoppingCart

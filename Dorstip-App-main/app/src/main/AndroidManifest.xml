@@ -19,7 +19,7 @@
         <activity android:name=".cart.CartActivity"
             android:exported="false"/>
         <activity
-            android:name=".dashboard.DetailActivity"
+            android:name=".dashboard.Products.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".Login.LoginActivity"
