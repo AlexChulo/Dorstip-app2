@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class ItemModel(
+    var id: Int = 0,
     var title:String="",
     var alcohol:Double=0.0,
     var brewery:String="",
@@ -14,6 +15,7 @@ data class ItemModel(
     var type:String=""
 ):Parcelable{
     constructor(parcel: Parcel):this(
+        parcel.readInt(),
         parcel.readString().toString(),
         parcel.readDouble(),
         parcel.readString().toString(),
@@ -30,6 +32,7 @@ data class ItemModel(
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(id)
         dest.writeString(title)
         dest.writeDouble(alcohol)
         dest.writeString(brewery)

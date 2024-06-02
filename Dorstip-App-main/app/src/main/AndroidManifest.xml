@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Internet permission voor API -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,15 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DorstipApp"
         tools:targetApi="31">
+        <activity android:name=".dashboard.Products.ProductListActivity"
+            android:exported="false"/>
+        <activity android:name=".cart.CartActivity"
+            android:exported="false"/>
         <activity
-            android:name=".dashboard.DetailActivity"
+            android:name=".dashboard.Products.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen.LoginScreen"
+            android:name=".Login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".OnboardingScreen.OnboardingScreenActivity"
-            android:exported="false" /> <!-- Set SplashScreenActivity as the launcher activity -->
+            android:exported="false" />
+        <activity
+            android:name=".Registration.RegistrationActivity"
+            android:exported="false" />
+        <!-- Set SplashScreenActivity as the launcher activity -->
         <activity
             android:name=".SplashScreen.SplashScreenActivity"
             android:exported="true">
@@ -39,7 +45,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

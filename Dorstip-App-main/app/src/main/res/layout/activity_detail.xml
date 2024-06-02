@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.DetailActivity">
+    tools:context=".dashboard.Products.DetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -176,22 +176,56 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     style="@android:style/Widget.Button"
+                    android:id="@+id/btnAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Buy Now"
+                    android:text="Add To Cart"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:background="@color/accent"
                     android:layout_margin="8dp"/>
 
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_addcart"
-                    android:layout_margin="8dp"
-                    app:tint="@color/secondary" />
+                <Spinner
+                    android:id="@+id/spinnerQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recensies"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/etReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Voeg je recensie toe"
+                    android:layout_marginTop="8dp"/>
+
+                <Button
+                    android:id="@+id/btnAddReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toevoegen"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/accent"
+                    android:textColor="@color/white"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
