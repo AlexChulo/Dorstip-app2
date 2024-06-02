@@ -1,21 +1,33 @@
-<!-- res/layout/activity_product_list.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Zoekbalk -->
-    <EditText
-        android:id="@+id/search_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search by name or category"
-        android:padding="12dp"
-        android:background="@drawable/search_background"
-        android:drawablePadding="10dp"/>
+        android:orientation="horizontal">
 
-    <!-- RecyclerView voor de producten -->
+        <ImageButton
+            android:id="@+id/ibBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/category_background"
+            android:src="@drawable/ic_arrowback"
+            android:layout_marginEnd="6dp"/>
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search by name or category"
+            android:padding="12dp"
+            android:background="@drawable/search_background"
+            android:drawablePadding="10dp"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_products"
         android:layout_width="match_parent"

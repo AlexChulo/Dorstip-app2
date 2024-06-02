@@ -34,7 +34,6 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-
     private fun banners() {
         val sliderItems = ArrayList<SliderModel>()
         for (imageUrl in item.picUrl) {
