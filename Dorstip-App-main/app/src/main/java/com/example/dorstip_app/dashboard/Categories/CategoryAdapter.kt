@@ -15,7 +15,6 @@ class CategoryAdapter(private val items: MutableList<CategoryModel>, private val
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private var selectedPosition = -1
-    private var lastSelectedPosition = -1
 
     // ViewHolder class to hold the views
     class ViewHolder(val binding: ViewholderCategoryBinding) :

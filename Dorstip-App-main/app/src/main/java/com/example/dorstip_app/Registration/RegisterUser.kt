@@ -8,11 +8,14 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import java.net.URLEncoder
 
+// Class responsible for registering a new user
 class RegisterUser(private val context: Context) {
 
+    // Function to register a new user
     fun register(firstName: String, lastName: String, email: String, password: String, passwordConfirmation: String, onSuccess: () -> Unit) {
         val url = "https://hetwapen.projects.adainforma.tk/api/v1/register"
 
+        // Validate user input
         val validationError = validateForm(firstName, lastName, email, password, passwordConfirmation)
         if (validationError != null) {
             Toast.makeText(context, validationError, Toast.LENGTH_SHORT).show()
@@ -21,12 +24,15 @@ class RegisterUser(private val context: Context) {
 
         val requestQueue = Volley.newRequestQueue(context)
 
+        // Create a string request for registering the user
         val stringRequest = object : StringRequest(
             Method.POST, url,
             Response.Listener { response ->
+                // Handle successful registration
                 handleSuccess(response, onSuccess)
             },
             Response.ErrorListener { error ->
+                // Handle registration error
                 val errorMessage = if (error.networkResponse != null) {
                     "Error ${error.networkResponse.statusCode}: ${String(error.networkResponse.data)}"
                 } else {
@@ -48,6 +54,7 @@ class RegisterUser(private val context: Context) {
                 params["password"] = password
                 params["password_confirmation"] = passwordConfirmation
 
+                // Encode parameters for POST request
                 val postData = StringBuilder()
                 for ((key, value) in params) {
                     if (postData.isNotEmpty()) {
@@ -67,6 +74,7 @@ class RegisterUser(private val context: Context) {
         requestQueue.add(stringRequest)
     }
 
+    // Function to validate user input
     fun validateForm(firstName: String, lastName: String, email: String, password: String, passwordConfirmation: String): String? {
         val onlyLettersPattern = "^[a-zA-Z]+$".toRegex()
         if (firstName.isEmpty() || !firstName.matches(onlyLettersPattern)) {
@@ -93,6 +101,7 @@ class RegisterUser(private val context: Context) {
         return null
     }
 
+    // Function to handle successful registration
     private fun handleSuccess(response: String, onSuccess: () -> Unit) {
         // Handle success response here
         Log.i("RegisterUser", "User registered successfully: $response")
