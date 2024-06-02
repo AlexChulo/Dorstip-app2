@@ -22,12 +22,19 @@ class RegistrationActivity : AppCompatActivity() {
         val passwordField: EditText = findViewById(R.id.etPassword)
         val passwordConfirmationField: EditText = findViewById(R.id.etPasswordConfirmation)
         val registerButton: Button = findViewById(R.id.btnRegister)
+        val loginField: TextView = findViewById(R.id.tvLogin)
 
         val firstNameError: TextView = findViewById(R.id.tvFirstNameError)
         val lastNameError: TextView = findViewById(R.id.tvLastNameError)
         val emailError: TextView = findViewById(R.id.tvEmailError)
         val passwordError: TextView = findViewById(R.id.tvPasswordError)
         val passwordConfirmationError: TextView = findViewById(R.id.tvPasswordConfirmationError)
+
+        loginField.setOnClickListener{
+            val login = Intent(this, LoginActivity::class.java)
+            startActivity(login)
+            finish()
+        }
 
         registerButton.setOnClickListener {
             val firstName = firstNameField.text.toString()
