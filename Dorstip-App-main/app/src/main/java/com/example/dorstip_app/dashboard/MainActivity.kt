@@ -1,6 +1,5 @@
 package com.example.dorstip_app.dashboard
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,8 +21,7 @@ import com.example.dorstip_app.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val viewModel = MainViewModel() // Create an instance of MainViewModel
     private lateinit var binding: ActivityMainBinding // Initialize ActivityMainBinding
-    private lateinit var adapter: ProductAdapter // Assuming you have a RecyclerView adapter for products
-    private lateinit var products: List<ItemModel> // Assuming you have a list of products
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -71,23 +69,21 @@ class MainActivity : AppCompatActivity() {
 
     // Function to initialize the category
     private fun initCategory() {
-        viewModel.categories.observe(this, Observer {
+        viewModel.categories.observe(this, Observer { categoryList ->
             // Set up RecyclerView for the category
             binding.rvCategory.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvCategory.adapter = CategoryAdapter(it)
+            binding.rvCategory.adapter = CategoryAdapter(categoryList, this@MainActivity)
         })
         viewModel.loadCategory() // Load categories from ViewModel
     }
 
     // Function to initialize the product items
     private fun initProduct() {
-        viewModel.products.observe(this, Observer {
+        viewModel.products.observe(this, Observer { productList ->
             // Set up RecyclerView for recommended items
             binding.rvDrinks.layoutManager = GridLayoutManager(this@MainActivity, 2)
-            binding.rvDrinks.adapter = ProductAdapter(it)
+            binding.rvDrinks.adapter = ProductAdapter(productList)
         })
         viewModel.loadRecommended() // Load recommended items from ViewModel
     }
-
-
 }

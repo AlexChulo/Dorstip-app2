@@ -10,7 +10,7 @@ import com.example.dorstip_app.cart.CartActivity
 import com.example.dorstip_app.dashboard.BannerSlider.SliderAdapter
 import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
 import com.example.dorstip_app.dashboard.Products.ItemModel
-import com.example.dorstip_app.dashboard.shoppincart.ShoppingCart
+import com.example.dorstip_app.dashboard.shoppingcart.ShoppingCart
 import com.example.dorstip_app.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {

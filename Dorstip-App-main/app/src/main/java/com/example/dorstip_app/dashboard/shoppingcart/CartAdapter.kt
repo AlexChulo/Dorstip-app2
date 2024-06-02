@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.dorstip_app.dashboard.shoppincart.CartItem
+import com.example.dorstip_app.dashboard.shoppingcart.CartItem
 import com.example.dorstip_app.databinding.ViewholderCartBinding
 
 class CartAdapter(private val items: List<CartItem>) :
