@@ -21,8 +21,11 @@ class ProductListActivity : AppCompatActivity() {
 
         initProductList()
         initSearchBar()
-    }
 
+        // Automatically fill the search bar with the category from the intent
+        val categoryTitle = intent.getStringExtra("CATEGORY_TITLE") ?: ""
+        binding.searchBar.setText(categoryTitle)
+    }
 
     private fun initProductList() {
         adapter = ProductAdapter(mutableListOf())
@@ -30,12 +33,15 @@ class ProductListActivity : AppCompatActivity() {
         binding.rvProducts.adapter = adapter
         binding.ibBack.setOnClickListener { finish() }
 
-        viewModel.products.observe(this, Observer {
-            adapter.updateList(it)
+        viewModel.products.observe(this, Observer { products ->
+            adapter.updateList(products)
+
+            // Filter products based on the initial category title
+            val categoryTitle = intent.getStringExtra("CATEGORY_TITLE") ?: ""
+            filterProducts(categoryTitle)
         })
         viewModel.loadRecommended()
     }
-
 
     private fun initSearchBar() {
         binding.searchBar.addTextChangedListener(object : TextWatcher {
@@ -49,13 +55,10 @@ class ProductListActivity : AppCompatActivity() {
         })
     }
 
-
     private fun filterProducts(query: String) {
         val filteredList = if (query.isBlank()) {
-
             viewModel.products.value ?: mutableListOf()
         } else {
-
             viewModel.products.value?.filter {
                 it.title.contains(query, true) || it.type.contains(query, true)
             } ?: mutableListOf()

@@ -3,7 +3,7 @@ package com.example.dorstip_app.cart
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dorstip_app.dashboard.shoppincart.ShoppingCart
+import com.example.dorstip_app.dashboard.shoppingcart.ShoppingCart
 import com.example.dorstip_app.databinding.ActivityCartBinding
 
 class CartActivity : AppCompatActivity() {

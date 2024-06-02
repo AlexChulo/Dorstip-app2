@@ -1,4 +1,4 @@
-package com.example.dorstip_app.dashboard.shoppincart
+package com.example.dorstip_app.dashboard.shoppingcart
 
 import com.example.dorstip_app.dashboard.Products.ItemModel
 
