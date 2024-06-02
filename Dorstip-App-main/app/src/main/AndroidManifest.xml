@@ -20,11 +20,15 @@
             android:name=".dashboard.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginAndRegistration.LoginScreen"
+            android:name=".Login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".OnboardingScreen.OnboardingScreenActivity"
-            android:exported="false" /> <!-- Set SplashScreenActivity as the launcher activity -->
+            android:exported="false" />
+        <activity
+            android:name=".Registration.RegistrationActivity"
+            android:exported="false" />
+        <!-- Set SplashScreenActivity as the launcher activity -->
         <activity
             android:name=".SplashScreen.SplashScreenActivity"
             android:exported="true">
@@ -39,7 +43,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
