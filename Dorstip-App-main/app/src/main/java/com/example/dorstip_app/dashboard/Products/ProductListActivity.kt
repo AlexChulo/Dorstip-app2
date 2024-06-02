@@ -28,6 +28,7 @@ class ProductListActivity : AppCompatActivity() {
         adapter = ProductAdapter(mutableListOf())
         binding.rvProducts.layoutManager = GridLayoutManager(this, 2)
         binding.rvProducts.adapter = adapter
+        binding.ibBack.setOnClickListener { finish() }
 
         viewModel.products.observe(this, Observer {
             adapter.updateList(it)
