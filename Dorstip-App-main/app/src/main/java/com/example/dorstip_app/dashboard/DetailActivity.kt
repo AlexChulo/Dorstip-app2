@@ -2,20 +2,30 @@ package com.example.dorstip_app.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dorstip_app.cart.CartActivity
 import com.example.dorstip_app.dashboard.BannerSlider.SliderAdapter
 import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
 import com.example.dorstip_app.dashboard.Products.ItemModel
+import com.example.dorstip_app.dashboard.Review.Review
+import com.example.dorstip_app.dashboard.Review.ReviewAdapter
+import com.example.dorstip_app.dashboard.Review.ReviewViewModel
 import com.example.dorstip_app.dashboard.shoppingcart.ShoppingCart
 import com.example.dorstip_app.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityDetailBinding // Initialize ActivityDetailBinding
-    private lateinit var item: ItemModel // Declare an instance of ItemModel
+    private lateinit var binding: ActivityDetailBinding
+    private lateinit var item: ItemModel
+    private val reviewViewModel: ReviewViewModel by viewModels()
+    private lateinit var reviewAdapter: ReviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +35,7 @@ class DetailActivity : AppCompatActivity() {
         getBundle()
         banners()
         setupSpinner()
+        setupReviews()
 
         binding.btnAdd.setOnClickListener {
             val quantity = binding.spinnerQuantity.selectedItem.toString().toInt()
@@ -32,8 +43,17 @@ class DetailActivity : AppCompatActivity() {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
+        
+        binding.btnAddReview.setOnClickListener {
+            val reviewText = binding.etReview.text.toString().trim()
+            if (reviewText.isNotEmpty()) {
+                reviewViewModel.addReview(item.id.toString(), reviewText)
+                binding.etReview.text.clear()
+            } else {
+                Toast.makeText(this, "Please write a review", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-
     private fun banners() {
         val sliderItems = ArrayList<SliderModel>()
         for (imageUrl in item.picUrl) {
@@ -46,11 +66,22 @@ class DetailActivity : AppCompatActivity() {
         binding.vpProductImage.offscreenPageLimit = 3
         binding.vpProductImage.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-
         if (sliderItems.size > 1) {
             binding.diProductImage.visibility = View.VISIBLE
             binding.diProductImage.attachTo(binding.vpProductImage)
         }
+    }
+    private fun setupReviews() {
+        reviewAdapter = ReviewAdapter(emptyList())
+        binding.rvReviews.layoutManager = LinearLayoutManager(this)
+        binding.rvReviews.adapter = reviewAdapter
+
+        reviewViewModel.fetchReviews(item.id.toString())
+
+        reviewViewModel.reviews.observe(this, Observer { reviews ->
+            reviewAdapter = ReviewAdapter(reviews)
+            binding.rvReviews.adapter = reviewAdapter
+        })
     }
 
     private fun getBundle() {

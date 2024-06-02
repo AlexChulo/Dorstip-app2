@@ -28,7 +28,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun initProductList() {
-        adapter = ProductAdapter(mutableListOf())
+        adapter = ProductAdapter(mutableListOf(), this)
         binding.rvProducts.layoutManager = GridLayoutManager(this, 2)
         binding.rvProducts.adapter = adapter
         binding.ibBack.setOnClickListener { finish() }

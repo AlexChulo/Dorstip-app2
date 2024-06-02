@@ -13,7 +13,6 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.dorstip_app.dashboard.BannerSlider.SliderAdapter
 import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
 import com.example.dorstip_app.dashboard.Categories.CategoryAdapter
-import com.example.dorstip_app.dashboard.Products.ItemModel
 import com.example.dorstip_app.dashboard.Products.ProductAdapter
 import com.example.dorstip_app.dashboard.Products.ProductListActivity
 import com.example.dorstip_app.databinding.ActivityMainBinding
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     // Function to initialize the banner
     private fun initBanner() {
         viewModel.banners.observe(this, Observer { items ->
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.loadBanners()
     }
-
     // Function to set up the banner with images
     private fun banners(images: List<SliderModel>) {
         // Set up ViewPager2 for the banner
@@ -53,36 +50,32 @@ class MainActivity : AppCompatActivity() {
         binding.vpBanner.clipChildren = false
         binding.vpBanner.offscreenPageLimit = 3
         binding.vpBanner.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-
         // Apply a composite page transformer with margin to the ViewPager2
         val compositePageTransformer = CompositePageTransformer().apply {
             addTransformer(MarginPageTransformer(40))
         }
         binding.vpBanner.setPageTransformer(compositePageTransformer)
-
         // If there are more than one image, show the indicator
         if (images.size > 1) {
             binding.diBanner.visibility = View.VISIBLE
             binding.diBanner.attachTo(binding.vpBanner)
         }
     }
-
     // Function to initialize the category
     private fun initCategory() {
         viewModel.categories.observe(this, Observer { categoryList ->
             // Set up RecyclerView for the category
-            binding.rvCategory.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvCategory.adapter = CategoryAdapter(categoryList, this@MainActivity)
+            binding.rvCategory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            binding.rvCategory.adapter = CategoryAdapter(categoryList, this)
         })
         viewModel.loadCategory() // Load categories from ViewModel
     }
-
     // Function to initialize the product items
     private fun initProduct() {
         viewModel.products.observe(this, Observer { productList ->
             // Set up RecyclerView for recommended items
-            binding.rvDrinks.layoutManager = GridLayoutManager(this@MainActivity, 2)
-            binding.rvDrinks.adapter = ProductAdapter(productList)
+            binding.rvDrinks.layoutManager = GridLayoutManager(this, 2)
+            binding.rvDrinks.adapter = ProductAdapter(productList, this)
         })
         viewModel.loadRecommended() // Load recommended items from ViewModel
     }
