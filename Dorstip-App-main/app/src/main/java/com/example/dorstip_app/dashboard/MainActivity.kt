@@ -1,6 +1,7 @@
 package com.example.dorstip_app.dashboard
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
 import com.example.dorstip_app.dashboard.Categories.CategoryAdapter
 import com.example.dorstip_app.dashboard.Products.ItemModel
 import com.example.dorstip_app.dashboard.Products.ProductAdapter
+import com.example.dorstip_app.dashboard.Products.ProductListActivity
 import com.example.dorstip_app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         initBanner() // Initialize the banner
         initCategory() // Initialize the category
         initProduct() // Initialize the product items
+
+        binding.btnDrinks.setOnClickListener {
+            val intent = Intent(this, ProductListActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     // Function to initialize the banner
@@ -81,4 +88,6 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.loadRecommended() // Load recommended items from ViewModel
     }
+
+
 }

@@ -24,4 +24,5 @@
     <string name="no_account_register_here">No account? Register here</string>
     <string name="skip">Skip</string>
     <string name="registration" />
+    <string name="welcome" />
 </resources>

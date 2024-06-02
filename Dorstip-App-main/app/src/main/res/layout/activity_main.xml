@@ -23,54 +23,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:id="@+id/tvDeliverTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebgaramond_regular"
-                        android:text="@string/welcome_back"
-                        android:textAllCaps="true"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toTopOf="@+id/tvDeliverPlace"
-                        app:layout_constraintStart_toStartOf="@+id/tvDeliverPlace" />
-
-                    <TextView
-                        android:id="@+id/tvDeliverPlace"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ebgaramond_bold"
-                        android:text="User"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingVertical="10dp">
 
-                    <EditText
-                        android:id="@+id/etSearchBar"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:background="@drawable/search_background"
-                        android:elevation="10dp"
-                        android:hint="@string/search_for_drink"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:textColor="@color/grey"
-                        android:imeOptions="actionSearch"
-                        android:singleLine="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        android:layout_height="match_parent"
+                        android:text=" Welcome at Dorstip"
+                        android:gravity="center"
+                        android:textSize="32dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
