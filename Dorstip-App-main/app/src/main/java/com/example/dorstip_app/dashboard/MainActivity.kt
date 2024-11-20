@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.example.dorstip_app.Profile.ProfileActivity
 import com.example.dorstip_app.cart.CartActivity
 import com.example.dorstip_app.dashboard.BannerSlider.SliderAdapter
 import com.example.dorstip_app.dashboard.BannerSlider.SliderModel
@@ -43,6 +44,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.cart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.profile.setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
     }

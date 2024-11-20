@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dorstip_app.databinding.ViewholderReviewBinding
 
-class ReviewAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+class ReviewAdapter(private var reviews: List<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val binding = ViewholderReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,9 +18,16 @@ class ReviewAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<Re
 
     override fun getItemCount() = reviews.size
 
+    fun submitList(newReviews: List<Review>) {
+        reviews = newReviews
+        notifyDataSetChanged()
+    }
+
     class ReviewViewHolder(private val binding: ViewholderReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.tvReviewText.text = review.text
         }
     }
 }
+
+

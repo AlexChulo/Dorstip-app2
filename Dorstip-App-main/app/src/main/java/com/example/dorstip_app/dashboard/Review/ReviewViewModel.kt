@@ -7,10 +7,17 @@ import com.google.firebase.database.*
 
 class ReviewViewModel : ViewModel() {
     private val database = FirebaseDatabase.getInstance().reference
-    private val _reviews = MutableLiveData<List<Review>>()
-    val reviews: LiveData<List<Review>> = _reviews
+    private val reviewData = mutableMapOf<String, MutableLiveData<List<Review>>>()
 
-    fun fetchReviews(itemId: String) {
+    fun getReviews(itemId: String): LiveData<List<Review>> {
+        if (!reviewData.containsKey(itemId)) {
+            reviewData[itemId] = MutableLiveData()
+            fetchReviews(itemId)
+        }
+        return reviewData[itemId]!!
+    }
+
+    private fun fetchReviews(itemId: String) {
         database.child("Items").child(itemId).child("review").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val reviewList = mutableListOf<Review>()
@@ -20,7 +27,7 @@ class ReviewViewModel : ViewModel() {
                         reviewList.add(review)
                     }
                 }
-                _reviews.value = reviewList
+                reviewData[itemId]?.value = reviewList
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -28,10 +35,23 @@ class ReviewViewModel : ViewModel() {
             }
         })
     }
+    fun fetchReviewCount(itemId: String, callback: (Int) -> Unit) {
+        database.child("Items").child(itemId).child("review").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val count = snapshot.childrenCount.toInt()
+                callback(count)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors here
+                callback(0)
+            }
+        })
+    }
+
 
     fun addReview(itemId: String, reviewText: String) {
         val review = Review(reviewText)
         database.child("Items").child(itemId).child("review").push().setValue(review)
     }
 }
-
