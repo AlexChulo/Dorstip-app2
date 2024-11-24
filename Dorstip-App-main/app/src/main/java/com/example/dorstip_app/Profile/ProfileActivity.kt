@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dorstip_app.Login.LoginActivity
@@ -17,6 +18,9 @@ class ProfileActivity : AppCompatActivity() {
 
         val profileName: TextView = findViewById(R.id.profileName)
         val profileEmail: TextView = findViewById(R.id.profileEmail)
+        val ibBack: ImageButton = findViewById(R.id.ibBack)
+
+        ibBack.setOnClickListener { finish() }
 
         val loginManager = LoginManager(this)
         loginManager.getProfile { success, response ->
