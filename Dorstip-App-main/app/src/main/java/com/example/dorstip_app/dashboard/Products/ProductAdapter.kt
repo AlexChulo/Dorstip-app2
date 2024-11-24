@@ -35,6 +35,7 @@ class ProductAdapter(private var items: MutableList<ItemModel>, private val cont
         holder.binding.tvPrice.text = "€" + item.price.toString()
         holder.binding.tvRating.text = item.rating.toString()
 
+        // Load the image using Glide
         val requestOptions = RequestOptions().transform(CenterCrop())
         Glide.with(holder.itemView.context)
             .load(item.picUrl[0])
@@ -42,18 +43,18 @@ class ProductAdapter(private var items: MutableList<ItemModel>, private val cont
             .fitCenter()
             .into(holder.binding.ivDrink)
 
+        // Fetch and display the number of reviews for this item
+        reviewViewModel.fetchReviewCount(item.id.toString()) { count ->
+            holder.binding.tvReviewNumber.text = count.toString()
+        }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
             intent.putExtra("object", item)
             holder.itemView.context.startActivity(intent)
         }
 
-        // Fetch and display the number of reviews
-        reviewViewModel.fetchReviews(item.id.toString())
-        reviewViewModel.reviews.observe(context as AppCompatActivity, { reviews ->
-            holder.binding.tvReviewNumber.text = reviews.size.toString()
-        })
-    }
+}
 
     override fun getItemCount(): Int = items.size
 
