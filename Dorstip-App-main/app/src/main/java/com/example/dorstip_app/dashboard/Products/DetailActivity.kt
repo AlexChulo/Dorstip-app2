@@ -73,14 +73,11 @@ class DetailActivity : AppCompatActivity() {
         binding.rvReviews.layoutManager = LinearLayoutManager(this)
         binding.rvReviews.adapter = reviewAdapter
 
-        reviewViewModel.fetchReviews(item.id.toString())
-
-        reviewViewModel.reviews.observe(this, Observer { reviews ->
-            reviewAdapter = ReviewAdapter(reviews)
-            binding.rvReviews.adapter = reviewAdapter
+        // Fetch reviews for this specific item using the isolated data in ViewModel
+        reviewViewModel.getReviews(item.id.toString()).observe(this, Observer { reviews ->
+            reviewAdapter.submitList(reviews)
         })
     }
-
     private fun getBundle() {
         item = intent.getParcelableExtra("object")!!
 
